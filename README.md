@@ -54,6 +54,17 @@ If you want to host multiple product sites - say, sa.vm.toxodb.org and sa.vm.gia
     rake build
     vagrant plugin install pkg/landrush-0.18.0.gem
 
+Clone This Vagrant Project
+--------------------------
+
+    clone https://github.com/mheiges/vagrant-webdev-poc.git
+
+Start the Virtual Machine
+-------------------------
+
+    cd vagrant-webdev-poc
+    vagrant up
+
 Apache VirtualHost Names
 ------------------------
 
