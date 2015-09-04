@@ -28,7 +28,7 @@ Install Ansible Supporting Roles
 
 Checkout `eupathdb-ansible-roles` on the host in a path of your choice. These roles are meant to be shared and reused across multiple environments so it's recommended that you put it in some central place.
 
-    git clone https://github.com/EuPathDB/eupathdb-tomcat_instance tomcat_instance
+    git clone https://github.com/EuPathDB/ansible-tomcat_instance.git tomcat_instance
 
 Inform Ansible of these roles by setting the `roles_path` in `~/.ansible.cfg` (create file as needed) to your svn working directory.
 
