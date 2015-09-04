@@ -65,8 +65,11 @@ Start the Virtual Machine
     cd vagrant-webdev-poc
     vagrant up
 
-Apache VirtualHost Names
-------------------------
+
+----
+
+About Apache VirtualHost Names
+------------------------------
 
 The convention is to use `vm.*.org` subdomains of our project domains as hostnames. This allows us to have Landrush to configure the local DNS to handle any request to those subdomains (e.g. `sa.vm.toxodb.org`) and direct them to the guest virtual machine while allowing primary domain requests to pass through, so requests to `www.toxodb.org` are directed to our physical servers.
 
