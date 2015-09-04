@@ -4,6 +4,8 @@ Vagrant.configure(2) do |config|
   config.vm.box_url = 'http://software.apidb.org/vagrant/webdev-poc.json'
   config.vm.network :private_network, ip: '192.168.100.100'
 
+  config.ssh.forward_agent = true
+
   config.landrush.host_ip_address = '192.168.100.100'
   config.vm.hostname = 'sa.vm.apidb.org'
   
