@@ -28,9 +28,10 @@ Install Ansible Supporting Roles
 
 Checkout `eupathdb-ansible-roles` on the host in a path of your choice. These roles are meant to be shared and reused across multiple environments so it's recommended that you put it in some central place.
 
+    cd /Users/jdoe/Repositories/ansible-roles
     git clone https://github.com/EuPathDB/ansible-tomcat_instance.git tomcat_instance
 
-Inform Ansible of these roles by setting the `roles_path` in `~/.ansible.cfg` (create file as needed) to your svn working directory.
+Inform Ansible of these roles by setting the `roles_path` in `~/.ansible.cfg` (create file as needed) to your central roles directory.
 
     [defaults] 
     roles_path = /Users/jdoe/Repositories/ansible-roles
@@ -61,7 +62,9 @@ The convention is to use `vm.*.org` subdomains of our project domains as hostnam
 In short, for OS X hosts, I recommend using the Landrush plugin and using a vagrant configuration something like
 
     config.vm.hostname = 'sa.vm.toxodb.org'
-    config.landrush.tld = vm.toxodb.org
+    config.landrush.tld = 'vm.toxodb.org'
 
-and installing a website named `sa.vm.toxodb.org`. (The `sa` name is not important, you can choose any name you prefer).
+and installing your website with a matching hostname, e.g. `sa.vm.toxodb.org`. (The `sa` name is not important, you can choose any name you prefer).
+
+With this setup, pointing your browser at http://sa.vm.toxodb.org/ will show you the virtual machine, http://toxodb.org/ will take you to the live production website.
 
