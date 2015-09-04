@@ -5,6 +5,9 @@ This is an very incomplete starter project for EBRC website development. Copy it
 
 It uses a Vagrant box that was hastily converted from the legacy KVM template used for standalone website VMs. So treat it as a proof of concept and chance to identify features needed in our next generation VM templates.
 
+The provisioning will install a CrytpoDB and a ToxoDB tomcat instance and start them.
+
+
 Setup
 =====
 
@@ -66,6 +69,20 @@ Start the Virtual Machine
     vagrant up
 
 
+Install a Website
+-----------------
+
+Run
+
+    installWdkSite
+
+and follow instructions.
+
+Website Maintenance
+-------------------
+
+The virtual machine uses the same environment as physical servers so standard operating procedures apply. See summary list of tools at https://wiki.apidb.org/index.php/WebsiteMaintenanceScripts
+
 ----
 
 About Apache VirtualHost Names
@@ -82,3 +99,42 @@ and installing your website with a matching hostname, e.g. `sa.vm.toxodb.org`. (
 
 With this setup, pointing your browser at http://sa.vm.toxodb.org/ will show you the virtual machine, http://toxodb.org/ will take you to the live production website.
 
+
+Known Issues
+------------
+
+Things that need to be coded in the provisioning, or otherwise handled in next generation VMs, include
+
+Install Oracle drivers to tomcat, e.g.
+
+    sudo cp $ORACLE_HOME/jdbc/lib/ojdbc6.jar \
+    /usr/local/tomcat_instances/ToxoDB/shared/lib/
+    
+    sudo instance_manager restart ToxoDB
+
+Put `$PROJECT_HOME` on an NFS share somehow so it can be edited with host IDE. (I manually make a `project_home` directory on `/vagrant/scratch` and symlink it in `/var/www/sa.vm.toxodb.org/`. There are many other options to explore.
+
+
+If you put your site on an NFS volume `rebuilder` will rightly complain you don't own the files. Remove the ownership check from the script and it will work fine. Here's a patch:
+
+    --- /usr/local/bin/rebuilder.dist	2015-09-04 11:01:55.000000000 -0400
+    +++ /usr/local/bin/rebuilder	2015-09-03 11:36:57.000000000 -0400
+    @@ -591,15 +591,6 @@
+         exit 1
+     fi
+ 
+    -for f in $SITE_SYMLINK/{,gus_home/{bin,data,doc,lib,test,wsf-lib},project_home,html,cgi-bin,cgi-lib,conf,webapp}; do 
+    -    if [[ -e $f && ! -O $f ]]; then
+    -        echo
+    -        echo "'$f' is not owned by you. I refuse to continue."
+    -        echo
+    -        exit 1
+    -    fi
+    -done
+    -
+     if [[ -n "$USER_BUILDROOT" && ! -d "$PROJECT_HOME/$USER_BUILDROOT" ]]; then
+         echo "<$this> Fatal: Invalid --buildroot value."
+         echo "'$USER_BUILDROOT' does not exist in '$PROJECT_HOME'"
+
+
+Many other things to be discovered.
