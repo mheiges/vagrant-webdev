@@ -121,7 +121,7 @@ Install Oracle drivers to tomcat, e.g.
 Put `$PROJECT_HOME` on an NFS share somehow so it can be edited with host IDE. (I manually make a `project_home` directory on `/vagrant/scratch` and symlink it in `/var/www/sa.vm.toxodb.org/`. There are many other options to explore.
 
 
-If you put your site on an NFS volume `rebuilder` will rightly complain you don't own the files. Remove the ownership check from the script and it will work fine. Here's a patch:
+If you put your site on an NFS volume `rebuilder` will rightly complain you don't own the site's files. Remove the ownership check from the script and it will work fine. Here's a patch:
 
     --- /usr/local/bin/rebuilder.dist	2015-09-04 11:01:55.000000000 -0400
     +++ /usr/local/bin/rebuilder	2015-09-03 11:36:57.000000000 -0400
