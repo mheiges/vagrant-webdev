@@ -78,6 +78,12 @@ Run
 
 and follow instructions.
 
+This example project only installs ToxoDB and CryptoDB tomcat instances. To install another, add a role to `playbook.yml`
+
+    - { role: tomcat_instance, product: PlasmoDB }
+
+or edit an existing and then run `vagrant provision`. The VM has a relatively low memory footprint so you probably don't want to install extraneous instances.
+
 Website Maintenance
 -------------------
 
@@ -136,5 +142,8 @@ If you put your site on an NFS volume `rebuilder` will rightly complain you don'
          echo "<$this> Fatal: Invalid --buildroot value."
          echo "'$USER_BUILDROOT' does not exist in '$PROJECT_HOME'"
 
+Disable website password requirement
+
+See __Removing the login requirement from a website__ at https://wiki.apidb.org/index.php/QaAuth .
 
 Many other things to be discovered.
