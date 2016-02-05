@@ -3,28 +3,36 @@ A Vagrant Demo For EBRC Website Development
 
 This is an very incomplete starter project for EBRC website development. Copy it, make it your own, commit it to your own repository.
 
-It uses a Vagrant box that was hastily converted from the legacy KVM template used for standalone website VMs. So treat it as a proof of concept and chance to identify features needed in our next generation VM templates.
-
-The provisioning will install a CrytpoDB and a ToxoDB tomcat instance and start them.
-
+The Vagrant box has been provisioned using a subset of the same pipelines used to set up development webservers in the datacenter so it should have high parity with the traditional work environments. Nonetheless, treat this Vagrant project and box as a proof of concept and chance to identify features needed in our next generation VM templates.
 
 Setup
 =====
 
+Get an Atlas Account and API Token
+---------------
+
+The Vagrant box for this project is hosted in the Atlas repository and is restricted to authorized users. You will need to sign up for an account on [Atlas](https://atlas.hashicorp.com/), then notify your friendly EBRC admins of your Atlas username so they can add you to the `ebrc` organization account.
+
+[Then generate a token for your account](https://atlas.hashicorp.com/help/user-accounts/authentication). When you generate your token, heed the warning that the token will not be displayed again in the future, so be sure to securely document it somewhere for yourself. 
+
+Set `ATLAS_TOKEN` environment variable in your shell,
+
+    export ATLAS_TOKEN='jdiw8jj,s.atlasv1.QU7x9.....'
+
 Install Vagrant
 ---------------
 
-https://www.vagrantup.com/downloads.htm
+[https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 
 Install VirtualBox
 ------------------
 
-https://www.virtualbox.org/wiki/Downloads
+[https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 
 Install Ansible
 ---------------
 
-http://docs.ansible.com/ansible/intro_installation.html
+[http://docs.ansible.com/ansible/intro_installation.html](http://docs.ansible.com/ansible/intro_installation.html)
 
 Install Ansible Supporting Roles
 --------------------------------
@@ -68,17 +76,28 @@ Start the Virtual Machine
     cd vagrant-webdev-poc
     vagrant up
 
+Remember to set the `ATLAS_TOKEN` environment variable in your shell, otherwise Vagrant will be unable to download the box or check for new versions.
+
+The box is about 6GB so will take a while to download.
+
+ssh to the Virtual Machine
+-----------------
+
+To connect to the VM as the `vagrant` user, run
+
+    vagrant ssh
+
 
 Install a Website
 -----------------
 
-Run
+Once logged in to the VM as the `vagrant` user, run
 
     installWdkSite
 
 and follow instructions.
 
-This example project only installs ToxoDB and CryptoDB tomcat instances. To install another, add a role to `playbook.yml`
+This example Vagrant project only installs ToxoDB and CryptoDB tomcat instances. To install another, add a role to `playbook.yml`
 
     - { role: tomcat_instance, product: PlasmoDB }
 
