@@ -5,51 +5,48 @@ This is an very incomplete starter project for EBRC website development. Copy it
 
 The Vagrant box has been provisioned using a subset of the same pipelines used to set up development webservers in the datacenter so it should have high parity with the traditional work environments. Nonetheless, treat this Vagrant project and box as a proof of concept and chance to identify features needed in our next generation VM templates.
 
-Setup
+Prerequisites
 =====
 
-Get an Atlas Account and API Token
+Atlas Account and API Token
 ---------------
 
 The Vagrant box for this project is hosted in the Atlas repository and is restricted to authorized users. You will need to sign up for an account on [Atlas](https://atlas.hashicorp.com/), then notify your friendly EBRC admins of your Atlas username so they can add you to the `ebrc` organization account.
 
-[Then generate a token for your account](https://atlas.hashicorp.com/help/user-accounts/authentication). When you generate your token, heed the warning that the token will not be displayed again in the future, so be sure to securely document it somewhere for yourself. 
+Once you have an Atlas account, [generate a token for your account](https://atlas.hashicorp.com/help/user-accounts/authentication). When you generate your token, heed the warning that the token will not be displayed again in the future, so be sure to securely document it somewhere for yourself. 
 
 Set `ATLAS_TOKEN` environment variable in your shell,
 
     export ATLAS_TOKEN='jdiw8jj,s.atlasv1.QU7x9.....'
 
-Install Vagrant
+Vagrant
 ---------------
+
+Vagrant manages the lifecycle of the virtual machine, guided by the instructions in the `Vagrantfile` included with this project.
 
 [https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)
 
-Install VirtualBox
+You should refer to Vagrant documentation and related online forums for information not covered in this document.
+
+VirtualBox
 ------------------
+
+Vagrant needs VirtualBox to host the virtual machine defined in this project's `Vagrantfile`. Other virtualization software (e.g. VMWare) are not compatible with this Vagrant project as it is currently configured.
 
 [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
 
-Install Ansible
+You should refer to VirtualBox documentation and related online forums for information not covered in this document.
+
+Ansible
 ---------------
+
+_Ansible is currently not required. This is a placeholder for future tasks of provisioning a specific website._
 
 [http://docs.ansible.com/ansible/intro_installation.html](http://docs.ansible.com/ansible/intro_installation.html)
 
-Install Ansible Supporting Roles
---------------------------------
+You should refer to Ansible documentation and related online forums for information not covered in this document.
 
-Checkout `eupathdb-ansible-roles` on the host in a path of your choice. These roles are meant to be shared and reused across multiple environments so it's recommended that you put it in some central place.
-
-    cd /Users/jdoe/Repositories/ansible-roles
-    git clone https://github.com/EuPathDB/ansible-tomcat_instance.git tomcat_instance
-
-Inform Ansible of these roles by setting the `roles_path` in `~/.ansible.cfg` (create file as needed) to your central roles directory.
-
-    [defaults] 
-    roles_path = /Users/jdoe/Repositories/ansible-roles
-
-_To collaborate on role development, commit changes to your own [Github fork](https://help.github.com/articles/fork-a-repo/) of the repository and [submit pull requests](https://help.github.com/articles/using-pull-requests/)._
-
-Install the Landrush Plugin (Optional)
+Vagrant Landrush Plugin (Optional)
 --------------------------------------
 
 The [Landrush](https://github.com/phinze/landrush) plugin for Vagrant provides a local DNS so you can register guest hostnames and refer to them in the host browser. It is not strictly required but it makes life easier than editing `/etc/hosts` files. This plugin has maximum benefit for OS X hosts, some benefit for Linux hosts and no benefit for Windows. Windows hosts will need to edit `hosts` files.
@@ -58,12 +55,17 @@ The [Landrush](https://github.com/phinze/landrush) plugin for Vagrant provides a
 
 _If you have trouble getting the host to resolve guest hostnames through landrush try clearing the host DNS cache by running_ `sudo killall -HUP mDNSResponder`.
 
-If you want to host multiple product sites - say, sa.vm.toxodb.org and sa.vm.giardiadb.org - you may want our Landrush fork that supports multiple TLD management. Until and unless our Pull Request is accepted by the upstream maintainer you will have to manually build and install the plugin from source.
+If you want to host multiple product sites - say, sa.vm.toxodb.org and sa.vm.giardiadb.org - you may want our Landrush fork that supports multiple TLD management. Until and unless our [Pull Request](https://github.com/phinze/landrush/pull/125) is accepted by the upstream maintainer you will have to manually build and install the plugin from source.
 
     git clone https://github.com/mheiges/landrush.git
     cd landrush
     rake build
     vagrant plugin install pkg/landrush-0.18.0.gem
+
+You should refer to Landrush and Vagrant documentation and related online forums for information not covered in this document.
+
+Usage
+=======
 
 Clone This Vagrant Project
 --------------------------
@@ -87,6 +89,19 @@ To connect to the VM as the `vagrant` user, run
 
     vagrant ssh
 
+Enable a Tomcat Instance
+-----------------
+
+The virtual machine comes with the common set of EBRC tomcat instances preinstalled and configured but they are in the disabled state so they do not unnecessarily consume system memory. Before installing a website, you will need to enable one or more of the tomcat instances using `instance_manager`.
+
+    sudo instance_manager enable AmoebaDB
+
+You may need to increase the memory in the `Vagrantfile` to run more than one tomcat instance. See Vagrant documentation for instructions.
+
+Likewise, shutdown and disable an instance you no longer need with `instance_manager`.
+
+    sudo instance_manager disable AmoebaDB
+
 
 Install a Website
 -----------------
@@ -95,13 +110,9 @@ Once logged in to the VM as the `vagrant` user, run
 
     installWdkSite
 
-and follow instructions.
+and follow instructions. The hostname is preconfigured to be `webdev.vm.apidb.org` in the `Vagrantfile` so you can readily create a website with that hostname.
 
-This example Vagrant project only installs ToxoDB and CryptoDB tomcat instances. To install another, add a role to `playbook.yml`
-
-    - { role: tomcat_instance, product: PlasmoDB }
-
-or edit an existing and then run `vagrant provision`. The VM has a relatively low memory footprint so you probably don't want to install extraneous instances.
+If are using the Landrush plugin, you can edit the `config.landrush.tld` array in `Vagrantfile` to include project vanity domains - allowing you, for example, to have websites for sa.vm.toxodb.org and sa.vm.amoebadb.org. See '**About Apache VirtualHost Names**' below for more details on hostname.
 
 Website Maintenance
 -------------------
