@@ -8,17 +8,6 @@ The Vagrant box has been provisioned using a subset of the same pipelines used t
 Prerequisites
 =====
 
-Atlas Account and API Token
----------------
-
-The Vagrant box for this project is hosted in the Atlas repository and is restricted to authorized users. You will need to sign up for an account on [Atlas](https://atlas.hashicorp.com/), then notify your friendly EBRC admins of your Atlas username so they can add you to the `ebrc` organization account.
-
-Once you have an Atlas account, [generate a token for your account](https://atlas.hashicorp.com/help/user-accounts/authentication). When you generate your token, heed the warning that the token will not be displayed again in the future, so be sure to securely document it somewhere for yourself. 
-
-Set `ATLAS_TOKEN` environment variable in your shell,
-
-    export ATLAS_TOKEN='jdiw8jj,s.atlasv1.QU7x9.....'
-
 Vagrant
 ---------------
 
@@ -78,10 +67,6 @@ Start the Virtual Machine
     cd vagrant-webdev-poc
     vagrant up
 
-Remember to set the `ATLAS_TOKEN` environment variable in your shell, otherwise Vagrant will be unable to download the box or check for new versions.
-
-The box is about 6GB so will take a while to download.
-
 ssh to the Virtual Machine
 -----------------
 
@@ -139,41 +124,6 @@ With this setup, pointing your browser at http://sa.vm.toxodb.org/ will show you
 Known Issues
 ------------
 
-Things that need to be coded in the provisioning, or otherwise handled in next generation VMs, include
-
-Install Oracle drivers to tomcat, e.g.
-
-    sudo cp $ORACLE_HOME/jdbc/lib/ojdbc6.jar \
-    /usr/local/tomcat_instances/ToxoDB/shared/lib/
-    
-    sudo instance_manager restart ToxoDB
-
 Put `$PROJECT_HOME` on an NFS share somehow so it can be edited with host IDE. (I manually make a `project_home` directory on `/vagrant/scratch` and symlink it in `/var/www/sa.vm.toxodb.org/`. There are many other options to explore.
-
-
-If you put your site on an NFS volume `rebuilder` will rightly complain you don't own the site's files. Remove the ownership check from the script and it will work fine. Here's a patch:
-
-    --- /usr/local/bin/rebuilder.dist	2015-09-04 11:01:55.000000000 -0400
-    +++ /usr/local/bin/rebuilder	2015-09-03 11:36:57.000000000 -0400
-    @@ -591,15 +591,6 @@
-         exit 1
-     fi
- 
-    -for f in $SITE_SYMLINK/{,gus_home/{bin,data,doc,lib,test,wsf-lib},project_home,html,cgi-bin,cgi-lib,conf,webapp}; do 
-    -    if [[ -e $f && ! -O $f ]]; then
-    -        echo
-    -        echo "'$f' is not owned by you. I refuse to continue."
-    -        echo
-    -        exit 1
-    -    fi
-    -done
-    -
-     if [[ -n "$USER_BUILDROOT" && ! -d "$PROJECT_HOME/$USER_BUILDROOT" ]]; then
-         echo "<$this> Fatal: Invalid --buildroot value."
-         echo "'$USER_BUILDROOT' does not exist in '$PROJECT_HOME'"
-
-Disable website password requirement
-
-See __Removing the login requirement from a website__ at https://wiki.apidb.org/index.php/QaAuth .
 
 Many other things to be discovered.
