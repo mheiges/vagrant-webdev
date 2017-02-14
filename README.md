@@ -44,7 +44,11 @@ The [Landrush](https://github.com/phinze/landrush) plugin for Vagrant provides a
 
 _If you have trouble getting the host to resolve guest hostnames through landrush try clearing the host DNS cache by running_ `sudo killall -HUP mDNSResponder`.
 
-If you want to host multiple product sites - say, sa.vm.toxodb.org and sa.vm.giardiadb.org - you may want our Landrush fork that supports multiple TLD management. Until and unless our [Pull Request](https://github.com/phinze/landrush/pull/125) is accepted by the upstream maintainer you will have to manually build and install the plugin from source.
+If you want to host multiple product sites - say, sa.vm.toxodb.org and sa.vm.giardiadb.org - you may want our Landrush fork that supports multiple TLD management. Until and unless our [Pull Request](https://github.com/phinze/landrush/pull/125) is accepted by the upstream maintainer you will have to install the plugin using the gem file included with this project.
+
+    vagrant plugin install landrush-0.18.0.gem
+
+To manually build and install from source
 
     git clone https://github.com/mheiges/landrush.git
     cd landrush
