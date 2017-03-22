@@ -2,3 +2,9 @@
 .vagrant
 scratch/*
 !.gitignore
+
+installsite.yml
+ansible/**/roles/*
+*_dashboard.json
+*.retry
+nogalaxy

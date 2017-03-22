@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: no
+  gather_facts: yes
+
+#  pre_tasks:
+#    - include: ebrcwebsite/gather_vars.yml
+
+  roles:
+    - { role: ebrcwebsite }

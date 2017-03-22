@@ -15,6 +15,7 @@ products = [
   'TrichDB',
   'TriTrypDB',
 ]
+vagrant_root = File.dirname(__FILE__)
 Vagrant.configure(2) do |config|
 
   config.vm.box_url = 'http://software.apidb.org/vagrant/webdev.json'
@@ -38,8 +39,17 @@ Vagrant.configure(2) do |config|
     end
   end
 
-#   config.vm.provision :ansible do |ansible|
-#     ansible.playbook = "playbook.yml"
-#   end
+  if File.file?("#{vagrant_root}/installsite.yml")
+    config.vm.provision :ansible do |ansible|
+      ansible.playbook = 'ansible/installwdksite/playbook.yml'
+      if ! File.file?("#{vagrant_root}/nogalaxy")
+        ansible.galaxy_role_file = 'ansible/installwdksite/requirements.yml'
+        ansible.galaxy_roles_path = 'ansible/installwdksite/roles'
+      end
+      ansible.extra_vars = {
+        settings_file: "#{vagrant_root}/installsite.yml"
+      }
+    end
+  end
 
 end

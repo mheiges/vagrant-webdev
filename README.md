@@ -29,11 +29,13 @@ You should refer to VirtualBox documentation and related online forums for infor
 Ansible
 ---------------
 
-_Ansible is currently not required. This is a placeholder for future tasks of provisioning a specific website._
+_Ansible is currently not required. This is needed for the optional task of provisioning a specific website._
 
 [http://docs.ansible.com/ansible/intro_installation.html](http://docs.ansible.com/ansible/intro_installation.html)
 
 You should refer to Ansible documentation and related online forums for information not covered in this document.
+
+The Ansible provisioner runs `ansible-galaxy` to acquire roles specified in `ansible/requirements.yml`. This step overwrites existing roles and any development edits you've made. Touch a `nogalaxy` file in the same directory as `Vagrantfile` to disable the `ansible-galaxy` step so your edits don't get deleted.
 
 Vagrant Landrush Plugin (Optional)
 --------------------------------------
@@ -65,10 +67,21 @@ Clone This Vagrant Project
 
     clone https://github.com/mheiges/vagrant-webdev-poc.git
 
+    cd vagrant-webdev-poc
+
+Optionally prepare for automated website provisioning
+-----------------
+
+_This is still under development and highly experimental._
+
+Copy `installsite_min.prop` from https://github.com/mheiges/ansible-ebrcwebsite/tree/master/doc to `installsite.prop` in the same directory as this project's `Vagrantfile`.
+
+Edit `installsite.prop`. Configure a source for default values from /dashboard and other personalized settings.
+
+
 Start the Virtual Machine
 -------------------------
 
-    cd vagrant-webdev-poc
     vagrant up
 
 ssh to the Virtual Machine
@@ -77,6 +90,11 @@ ssh to the Virtual Machine
 To connect to the VM as the `vagrant` user, run
 
     vagrant ssh
+
+Manually install a website
+-----------------
+
+If you opted not to use automated website provisioning use the following guidance.
 
 Enable a Tomcat Instance
 -----------------

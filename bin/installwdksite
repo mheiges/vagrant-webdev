@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [[ "$1" =~ 'printsettings' ]]; then
+  playbook='printsettings.yml'
+else
+  playbook='playbook.yml'
+fi
+
+ansible-playbook \
+  -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory \
+  --private-key=.vagrant/machines/default/virtualbox/private_key\
+  -u vagrant --ssh-common-args='-o IdentitiesOnly=yes' \
+  --extra-vars "settings_file=$PWD/installsite.yml" \
+  "ansible/installwdksite/${playbook}"
