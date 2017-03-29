@@ -3,8 +3,5 @@
   become: no
   gather_facts: no
 
-  pre_tasks:
-    - include: roles/ebrcwebsite/tasks/gather_vars.yml
-
   tasks:
     - include: roles/ebrcwebsite/tasks/confirmvars.yml
