@@ -74,9 +74,9 @@ Optionally prepare for automated website provisioning
 
 _This is still under development and highly experimental._
 
-Copy `installsite_min.prop` from https://github.com/mheiges/ansible-ebrcwebsite/tree/master/doc to `installsite.prop` in the same directory as this project's `Vagrantfile`.
+Copy `installsite_min.prop` from https://github.com/mheiges/ansible-ebrcwebsite/tree/master/doc to `installsite.yml` in the same directory as this project's `Vagrantfile`.
 
-Edit `installsite.prop`. Configure a source for default values from /dashboard and other personalized settings.
+Edit `installsite.yml`. Configure a source for default values from /dashboard and other personalized settings.
 
 
 Start the Virtual Machine

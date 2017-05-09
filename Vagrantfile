@@ -44,8 +44,6 @@ Vagrant.configure(2) do |config|
   end
 
   if File.file?("#{vagrant_root}/installsite.yml")
-    system "mkdir -p #{vagrant_root}/.vagrant/provisioners/ansible/inventory/"
-    system "cp ansible/installwdksite/dyninventory.py #{vagrant_root}/.vagrant/provisioners/ansible/inventory/"
     config.vm.provision :ansible do |ansible|
       ansible.playbook = 'ansible/installwdksite/playbook.yml'
       if ! File.file?("#{vagrant_root}/nogalaxy")
