@@ -4,5 +4,6 @@ ansible-playbook \
   -i .vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory \
   --private-key=.vagrant/machines/default/virtualbox/private_key \
   -u vagrant \
-  --ssh-common-args='-o IdentitiesOnly=yes' \
-  ansible/ebrcsite/playbook.yml "$@"
+  --ssh-common-args='-o IdentitiesOnly=yes -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' \
+  "$@"
+  #ansible/ebrcsite/playbook.yml "$@"
