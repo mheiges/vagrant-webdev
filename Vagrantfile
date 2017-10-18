@@ -1,11 +1,13 @@
 products = [
   'ApiDB',
   'AmoebaDB',
+  'ClinEpiDB',
   'CryptoDB',
   'EuPathDB',
   'FungiDB',
   'GiardiaDB',
   'HostDB',
+  'MicrobiomeDB',
   'MicrosporidiaDB',
   'OrthoMCL',
   'PiroplasmaDB',
@@ -26,7 +28,7 @@ Vagrant.configure(2) do |config|
   config.vm.hostname = 'webdev.vm.apidb.org'
 
   config.vm.provider "virtualbox" do |v|
-    v.memory = 2048
+    v.memory = 4096
   end
 
   config.vm.network :private_network, type: :dhcp
@@ -34,13 +36,15 @@ Vagrant.configure(2) do |config|
 
   if Vagrant.has_plugin?('landrush')
     config.landrush.enabled = true
-    # Setting multiple TLD values requires my Landrush
-    # fork at https://github.com/mheiges/landrush.git
-    # (A pull request for the patch as been sent to the upstream landrush maintainer.)
-    config.landrush.tld = products.map{ |tld| "vm.#{tld.downcase}.org" }
-    config.landrush.tld.each do |tld|
-      config.landrush.host "sa.#{tld}"
-    end
+#     # Setting multiple TLD values requires my Landrush
+#     # fork at https://github.com/mheiges/landrush.git
+#     # (A pull request for the patch as been sent to the upstream landrush maintainer.)
+#     config.landrush.tld = products.map{ |tld| "vm.#{tld.downcase}.org" }
+#     config.landrush.tld.each do |tld|
+#       config.landrush.host "sa.#{tld}"
+#     end
+    config.landrush.tld = "vm.trichdb.org"
+    config.landrush.host "sa.vm.trichdb.org"
   end
 
   if File.file?("#{vagrant_root}/installsite.yml")
