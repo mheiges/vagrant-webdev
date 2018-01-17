@@ -43,9 +43,12 @@ Vagrant.configure(2) do |config|
 #     config.landrush.tld.each do |tld|
 #       config.landrush.host "sa.#{tld}"
 #     end
-    config.landrush.tld = "vm.trichdb.org"
-    config.landrush.host "sa.vm.trichdb.org"
+    config.landrush.tld = "vm.plasmodb.org"
+    config.landrush.host "sa.vm.plasmodb.org"
   end
+
+  config.vm.provision "shell",
+    inline: "sed -i 's/enabled=1/enabled=0/' /etc/yum/pluginconf.d/fastestmirror.conf"
 
   if File.file?("#{vagrant_root}/installsite.yml")
     config.vm.provision :ansible do |ansible|
