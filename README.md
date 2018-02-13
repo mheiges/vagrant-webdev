@@ -65,9 +65,9 @@ Usage
 Clone This Vagrant Project
 --------------------------
 
-    clone https://github.com/mheiges/vagrant-webdev-poc.git
+    clone https://github.com/mheiges/vagrant-webdev.git
 
-    cd vagrant-webdev-poc
+    cd vagrant-webdev
 
 Optionally prepare for automated website provisioning
 -----------------
