@@ -26,10 +26,16 @@ In the Apache vhost configuration file, `/etc/httpd/conf/enabled_sites/sa.vm.tri
      [ "/$VH::Webapp/*" => "Tomcat8" ],
      [ "/$VH::Webapp"   => "Tomcat8" ],
   );
+
+  # tomcat webapp-related env vars for /dashboard
+  push @SetEnv, [
+      [ 'TOMCAT_INSTANCE' => "Tomcat8" ],
+      [ 'CONTEXT_PATH' => "/$VH::Webapp" ],
+  ];
   </Perl>
 ```
 
-after the "Configurations specific to this virtual host” comment.
+after the "Configurations specific to this virtual host" comment.
 
 Reload the webserver
 
