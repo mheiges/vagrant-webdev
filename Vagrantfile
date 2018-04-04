@@ -20,7 +20,7 @@ products = [
 vagrant_root = File.dirname(__FILE__)
 Vagrant.configure(2) do |config|
 
-  config.vm.box_url = 'http://software.apidb.org/vagrant/webdev.json'
+  config.vm.box_url = 'https://software.apidb.org/vagrant/webdev.json'
   config.vm.box = "ebrc/webdev"
 
   config.ssh.forward_agent = true
